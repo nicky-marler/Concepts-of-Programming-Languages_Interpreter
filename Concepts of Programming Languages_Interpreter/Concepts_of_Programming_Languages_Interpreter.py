@@ -5,7 +5,7 @@
 
 #The main boolean statement to be evaluated
 def B(s):
-    if isEmpty(s): return print("Error. Incomplete Statement")
+    if isIncomplete(s): return print("Error. Incomplete Statement")
     answer, s = IT(s)
     if s[0] == '.':
         if len(s) == 1:
@@ -19,7 +19,7 @@ def B(s):
     return print("Error. Did not end statement with a '.'")
 
 def IT(s):
-    if isEmpty(s): print("Error. Incomplete Statement")
+    if isIncomplete(s): print("Error. Incomplete Statement")
     answer, s = OT(s)
     return IT_TAIL(answer, s)
 
@@ -40,10 +40,10 @@ def IT_TAIL(answer, s):
                 answer = True
             return IT_TAIL(answer, s)
         return print("Error. Must follow a '-' with a '>'")
-    return print("Error. IT_TAIL")
+    return print("Error. Function IT_TAIL")
 
 def OT(s):
-    if isEmpty(s): print("Error. Incomplete Statement")
+    if isIncomplete(s): print("Error. Incomplete Statement")
     answer, s = AT(s)
     return OT_TAIL(answer, s)
 
@@ -57,10 +57,10 @@ def OT_TAIL(answer, s):
        new_answer, s = AT(s[1:])
        answer = new_answer or answer
        return OT_TAIL(answer, s)
-    return print("Error. OT_TAIL")
+    return print("Error. Function OT_TAIL")
 
 def AT(s):
-    if isEmpty(s): print("Error. Incomplete Statement")
+    if isIncomplete(s): print("Error. Incomplete Statement")
     if whiteSpace(s[0]):
         return AT(s[1:])
     answer, s = L(s)
@@ -79,7 +79,7 @@ def AT_TAIL(answer, s):
     return print("Error. OT_TAIL")
 
 def L(s):
-    if isEmpty(s): print("Error. Incomplete Statement")
+    if isIncomplete(s): print("Error. Incomplete Statement")
     if whiteSpace(s[0]):
         return L(s[1:])
     if s[0] == "∼":
@@ -88,7 +88,7 @@ def L(s):
     return A(s)
 
 def A(s):
-    if isEmpty(s): print("Error. Incomplete Statement")
+    if isIncomplete(s): print("Error. Incomplete Statement")
     if whiteSpace(s[0]):
         return A(s[1:])
     if s[0] == "T":
@@ -99,11 +99,15 @@ def A(s):
         answer, s = IT(s[1:])
         if s[0] == ")":
             return answer, s[1:]
-    return print("Error. A")
+    return print("Error. Function A")
 
 #Helper. Check for white space
 def whiteSpace(s):
   return s == '\n' or s == '\r' or s == '\t' or s == ' '
+
+#Helper. Check for Empty or to be Empty
+def isIncomplete(s):
+  return len(s) <= 1 
 
 #Helper. Check for Empty
 def isEmpty(s):
@@ -116,4 +120,4 @@ def removeAfterWhiteSpaces(s):
     return False
 
 #You can type any statement here to test it
-B("")
+B("T.")
